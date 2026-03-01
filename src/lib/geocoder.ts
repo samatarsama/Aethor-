@@ -153,7 +153,6 @@ export async function geocodeEvent(event: PolitiEvent): Promise<PolitiEvent> {
  */
 export async function geocodeEvents(events: PolitiEvent[]): Promise<PolitiEvent[]> {
   const needsGeocode = events.filter((e) => !e.coordinates)
-  const hasCoords    = events.filter((e) =>  e.coordinates)
 
   if (needsGeocode.length === 0) return events
 

@@ -131,6 +131,24 @@
   .status-dot.warning  { background-color: var(--color-warning);  box-shadow: 0 0 6px var(--color-warning); }
   .status-dot.safe     { background-color: var(--color-safe);     box-shadow: 0 0 6px var(--color-safe); }
   .status-dot.info     { background-color: var(--color-info); }
+
+  /* Klikkbar rad i paneler */
+  .aethor-row {
+    transition: background-color var(--transition-fast);
+    cursor: pointer;
+  }
+  .aethor-row:hover {
+    background-color: var(--color-bg-hover);
+  }
+
+  /* Pulse-animasjon for aktive events */
+  .pulse-dot {
+    animation: pulse-glow 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 1; box-shadow: 0 0 4px currentColor; }
+    50%       { opacity: 0.5; box-shadow: 0 0 10px currentColor; }
+  }
 }
 
 @layer utilities {

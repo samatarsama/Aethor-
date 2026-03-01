@@ -36,7 +36,6 @@ export const OSLO_DISTRICTS: Record<string, KnownLocation> = {
   'ullern':          { lat: 59.9101, lng: 10.6312, radiusM: 800 },
   'vestre aker':     { lat: 59.9501, lng: 10.6612, radiusM: 1200 },
   'nordre aker':     { lat: 59.9612, lng: 10.7456, radiusM: 1200 },
-  'nordre aker':     { lat: 59.9612, lng: 10.7456, radiusM: 1200 },
   'søndre nordstrand': { lat: 59.8312, lng: 10.7901, radiusM: 1200 },
   'sondre nordstrand': { lat: 59.8312, lng: 10.7901, radiusM: 1200 },
   'marka':           { lat: 59.9823, lng: 10.7201, radiusM: 3000 },

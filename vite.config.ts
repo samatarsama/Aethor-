@@ -21,6 +21,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/met/, ''),
       },
+      '/api/avinor': {
+        target: 'https://api.avinor.no',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/avinor/, '/XmlFeed.asp'),
+      },
     },
   },
 })

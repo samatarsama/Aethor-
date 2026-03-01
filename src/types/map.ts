@@ -1,4 +1,4 @@
-export type MapLayer = 'heatmap' | 'markers' | 'prediction'
+export type MapLayer = 'heatmap' | 'markers' | 'prediction' | 'bysykkel' | 'ships'
 
 export interface MapCoords {
   lat: number

@@ -62,8 +62,8 @@ function EventRow({
         {active && (
           <div className="flex items-center gap-1">
             <span
-              className="inline-block w-1.5 h-1.5 rounded-full"
-              style={{ backgroundColor: color, boxShadow: `0 0 4px ${color}` }}
+              className="pulse-dot inline-block w-1.5 h-1.5 rounded-full"
+              style={{ backgroundColor: color, color }}
             />
             <span className="hud-label" style={{ color }}>PÅGÅR</span>
           </div>
