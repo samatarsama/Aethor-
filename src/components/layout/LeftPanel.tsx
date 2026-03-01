@@ -1,18 +1,17 @@
-import { Radio, Map } from 'lucide-react'
+import { useState } from 'react'
+import { Radio, Layers } from 'lucide-react'
+import EventFeed from '@/components/feeds/EventFeed'
 
 const TABS = [
-  { id: 'feed', icon: Radio, label: 'FEED' },
-  { id: 'map',  icon: Map,   label: 'LAG' },
+  { id: 'feed',   icon: Radio,  label: 'FEED' },
+  { id: 'layers', icon: Layers, label: 'LAG' },
 ] as const
 
 type TabId = (typeof TABS)[number]['id']
 
-interface LeftPanelProps {
-  activeTab?: TabId
-  onTabChange?: (tab: TabId) => void
-}
+export default function LeftPanel() {
+  const [activeTab, setActiveTab] = useState<TabId>('feed')
 
-export default function LeftPanel({ activeTab = 'feed', onTabChange }: LeftPanelProps) {
   return (
     <div
       className="flex shrink-0"
@@ -32,12 +31,14 @@ export default function LeftPanel({ activeTab = 'feed', onTabChange }: LeftPanel
           return (
             <button
               key={id}
-              onClick={() => onTabChange?.(id)}
+              onClick={() => setActiveTab(id)}
               title={label}
               className="flex items-center justify-center w-8 h-8 transition-colors"
               style={{
-                color: active ? 'var(--color-primary)' : 'var(--color-text-dim)',
-                borderLeft: active ? '2px solid var(--color-primary)' : '2px solid transparent',
+                color:       active ? 'var(--color-primary)' : 'var(--color-text-dim)',
+                borderLeft:  active
+                  ? '2px solid var(--color-primary)'
+                  : '2px solid transparent',
               }}
             >
               <Icon size={14} />
@@ -64,14 +65,13 @@ export default function LeftPanel({ activeTab = 'feed', onTabChange }: LeftPanel
           </span>
         </div>
 
-        {/* Placeholder */}
-        <div className="flex flex-col flex-1 items-center justify-center gap-2">
-          <div
-            className="w-8 h-px"
-            style={{ backgroundColor: 'var(--color-border)' }}
-          />
-          <span className="hud-label">LASTER...</span>
-        </div>
+        {activeTab === 'feed' && <EventFeed />}
+
+        {activeTab === 'layers' && (
+          <div className="flex flex-col flex-1 items-center justify-center gap-2">
+            <span className="hud-label">LAG-KONTROLL — STEG 4</span>
+          </div>
+        )}
       </div>
     </div>
   )
