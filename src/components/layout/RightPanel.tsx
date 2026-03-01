@@ -1,19 +1,18 @@
+import { useState } from 'react'
 import { BrainCircuit, Camera, Globe } from 'lucide-react'
+import PredictionPanel from '@/components/panels/PredictionPanel'
 
 const TABS = [
-  { id: 'pred',  icon: BrainCircuit, label: 'PRED' },
-  { id: 'cam',   icon: Camera,       label: 'CAM' },
+  { id: 'pred',  icon: BrainCircuit, label: 'PREDIKSJON' },
+  { id: 'cam',   icon: Camera,       label: 'KAMERA' },
   { id: 'osint', icon: Globe,        label: 'OSINT' },
 ] as const
 
 type TabId = (typeof TABS)[number]['id']
 
-interface RightPanelProps {
-  activeTab?: TabId
-  onTabChange?: (tab: TabId) => void
-}
+export default function RightPanel() {
+  const [activeTab, setActiveTab] = useState<TabId>('pred')
 
-export default function RightPanel({ activeTab = 'pred', onTabChange }: RightPanelProps) {
   return (
     <div
       className="flex shrink-0"
@@ -28,7 +27,7 @@ export default function RightPanel({ activeTab = 'pred', onTabChange }: RightPan
         <div
           className="flex items-center px-3 shrink-0"
           style={{
-            height: '32px',
+            height:       '32px',
             borderBottom: '1px solid var(--color-border)',
           }}
         >
@@ -37,22 +36,27 @@ export default function RightPanel({ activeTab = 'pred', onTabChange }: RightPan
           </span>
         </div>
 
-        {/* Placeholder */}
-        <div className="flex flex-col flex-1 items-center justify-center gap-2">
-          <div
-            className="w-8 h-px"
-            style={{ backgroundColor: 'var(--color-border)' }}
-          />
-          <span className="hud-label">LASTER...</span>
-        </div>
+        {activeTab === 'pred'  && <PredictionPanel />}
+
+        {activeTab === 'cam' && (
+          <div className="flex flex-col flex-1 items-center justify-center gap-2">
+            <span className="hud-label">KAMERA — STEG 11</span>
+          </div>
+        )}
+
+        {activeTab === 'osint' && (
+          <div className="flex flex-col flex-1 items-center justify-center gap-2">
+            <span className="hud-label">OSINT — STEG 13</span>
+          </div>
+        )}
       </div>
 
       {/* Tab-ikon-stripe */}
       <div
         className="flex flex-col items-center pt-2 gap-1 shrink-0"
         style={{
-          width: '40px',
-          borderLeft: '1px solid var(--color-border)',
+          width:       '40px',
+          borderLeft:  '1px solid var(--color-border)',
           backgroundColor: 'var(--color-bg)',
         }}
       >
@@ -61,12 +65,14 @@ export default function RightPanel({ activeTab = 'pred', onTabChange }: RightPan
           return (
             <button
               key={id}
-              onClick={() => onTabChange?.(id)}
+              onClick={() => setActiveTab(id)}
               title={label}
               className="flex items-center justify-center w-8 h-8 transition-colors"
               style={{
-                color: active ? 'var(--color-primary)' : 'var(--color-text-dim)',
-                borderRight: active ? '2px solid var(--color-primary)' : '2px solid transparent',
+                color:      active ? 'var(--color-primary)' : 'var(--color-text-dim)',
+                borderRight: active
+                  ? '2px solid var(--color-primary)'
+                  : '2px solid transparent',
               }}
             >
               <Icon size={14} />

@@ -192,4 +192,20 @@ export function useMapLayers(
       essential: true,
     })
   }, [selectedEventId, mapReady, mapRef])
+
+  // ─── Fly-to ved valgt prediksjonsone ──────────────────────
+  const selectedZoneId = usePredictionStore((s) => s.selectedZoneId)
+
+  useEffect(() => {
+    if (!mapReady || !mapRef.current || !selectedZoneId) return
+    const zone = usePredictionStore.getState().zones.find((z) => z.id === selectedZoneId)
+    if (!zone) return
+
+    mapRef.current.flyTo({
+      center:    zone.center,
+      zoom:      Math.max(mapRef.current.getZoom(), 13),
+      duration:  800,
+      essential: true,
+    })
+  }, [selectedZoneId, mapReady, mapRef])
 }
