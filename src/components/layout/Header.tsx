@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Bell, Settings } from 'lucide-react'
 import StatusDot from '@/components/ui/StatusDot'
+import { useAlertStore } from '@/store/alertStore'
+import { useEventsStore } from '@/store/eventsStore'
 
 function useClock() {
   const [time, setTime] = useState(() => new Date())
@@ -13,12 +15,10 @@ function useClock() {
   return time
 }
 
-interface HeaderProps {
-  alertCount?: number
-}
-
-export default function Header({ alertCount = 0 }: HeaderProps) {
-  const time = useClock()
+export default function Header() {
+  const time       = useClock()
+  const alertCount = useAlertStore((s) => s.alerts.filter((a) => !a.acknowledged).length)
+  const isFallback = useEventsStore((s) => s.isFallback)
 
   const timeStr = time.toLocaleTimeString('no-NO', {
     timeZone: 'Europe/Oslo',
@@ -35,9 +35,12 @@ export default function Header({ alertCount = 0 }: HeaderProps) {
     year: 'numeric',
   }).toUpperCase()
 
+  const dismissAll = useAlertStore((s) => s.dismissAll)
+
   return (
+    <div className="shrink-0">
     <header
-      className="flex items-center justify-between px-4 shrink-0"
+      className="flex items-center justify-between px-4"
       style={{
         height: '48px',
         backgroundColor: 'var(--color-bg-panel)',
@@ -81,7 +84,7 @@ export default function Header({ alertCount = 0 }: HeaderProps) {
 
       {/* Systemstatus */}
       <div className="flex items-center gap-5">
-        <StatusDot status="online" label="POLITILOGGEN" />
+        <StatusDot status={isFallback ? 'degraded' : 'online'} label="POLITILOGGEN" />
         <StatusDot status="online" label="KART" />
         <StatusDot status="offline" label="KAMERA" />
       </div>
@@ -108,16 +111,17 @@ export default function Header({ alertCount = 0 }: HeaderProps) {
         <button
           className="relative flex items-center justify-center w-8 h-8 transition-colors"
           style={{ color: alertCount > 0 ? 'var(--color-warning)' : 'var(--color-text-dim)' }}
-          title="Varsler"
+          title={alertCount > 0 ? `${alertCount} varsler — klikk for å markere alle som lest` : 'Ingen aktive varsler'}
+          onClick={() => alertCount > 0 && dismissAll()}
         >
           <Bell size={16} />
           {alertCount > 0 && (
             <span
               className="absolute top-0.5 right-0.5 flex items-center justify-center w-3.5 h-3.5 rounded-full font-mono"
               style={{
-                fontSize: '9px',
+                fontSize:        '9px',
                 backgroundColor: 'var(--color-warning)',
-                color: '#000',
+                color:           '#000',
               }}
             >
               {alertCount > 9 ? '9+' : alertCount}
@@ -135,5 +139,45 @@ export default function Header({ alertCount = 0 }: HeaderProps) {
         </button>
       </div>
     </header>
+
+    {/* Alert-stripe — vises kun ved aktive CRITICAL varsler */}
+    {alertCount > 0 && (
+      <div
+        className="flex items-center justify-between px-4 py-1"
+        style={{
+          backgroundColor: 'rgba(239,68,68,0.08)',
+          borderBottom:    '1px solid rgba(239,68,68,0.25)',
+        }}
+      >
+        <div className="flex items-center gap-2">
+          <span
+            className="inline-block w-1.5 h-1.5 rounded-full"
+            style={{
+              backgroundColor: 'var(--color-critical)',
+              boxShadow:       '0 0 5px var(--color-critical)',
+              animation:       'pulse-dot 1.2s ease-in-out infinite',
+            }}
+          />
+          <span className="hud-label" style={{ color: 'var(--color-critical)' }}>
+            {alertCount} AKTIVE VARSLER
+          </span>
+        </div>
+        <button
+          className="hud-label transition-colors"
+          style={{ color: 'var(--color-text-dim)' }}
+          onClick={dismissAll}
+        >
+          AVVIS ALLE
+        </button>
+      </div>
+    )}
+
+    <style>{`
+      @keyframes pulse-dot {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0.3; }
+      }
+    `}</style>
+    </div>
   )
 }
