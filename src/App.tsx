@@ -1,21 +1,28 @@
+import AppLayout from '@/components/layout/AppLayout'
+
 export default function App() {
   return (
-    <div className="flex h-full w-full items-center justify-center bg-bg">
-      <div className="text-center">
-        <h1
-          className="font-mono text-4xl font-bold tracking-widest text-primary text-glow"
-          style={{ letterSpacing: '0.3em' }}
-        >
-          AETHOR
-        </h1>
-        <p className="mt-2 font-mono text-xs text-text-dim tracking-widest uppercase">
-          Intelligence Platform — Oslo
-        </p>
-        <div className="mt-8 h-px w-64 mx-auto bg-border" />
-        <p className="mt-4 font-mono text-xs text-info">
-          SYSTEM INITIALIZING...
-        </p>
+    <AppLayout>
+      {/* Kartområde — MapLibre monteres her i steg 4 */}
+      <div
+        className="flex flex-1 items-center justify-center"
+        style={{ backgroundColor: 'var(--color-bg)' }}
+      >
+        <div className="text-center">
+          <div
+            className="font-mono text-xs mb-1"
+            style={{ color: 'var(--color-text-dim)', letterSpacing: '0.2em' }}
+          >
+            59.9139° N  10.7522° E
+          </div>
+          <div
+            className="font-mono font-medium"
+            style={{ fontSize: '11px', color: 'var(--color-info)', letterSpacing: '0.15em' }}
+          >
+            KART INITIALISERES...
+          </div>
+        </div>
       </div>
-    </div>
+    </AppLayout>
   )
 }
