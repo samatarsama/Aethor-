@@ -100,4 +100,21 @@ export function useMapLayers(
       map.setLayoutProperty(HEATMAP_LAYER_ID, 'visibility', visibility)
     }
   }, [activeLayers, mapReady, mapRef])
+
+  // ─── Fly-to når event velges ──────────────────────────────
+  const selectedEventId = useEventsStore((s) => s.selectedEventId)
+
+  useEffect(() => {
+    if (!mapReady || !mapRef.current || !selectedEventId) return
+    const map   = mapRef.current
+    const event = useEventsStore.getState().events.find((e) => e.id === selectedEventId)
+    if (!event?.coordinates) return
+
+    map.flyTo({
+      center:   [event.coordinates.lng, event.coordinates.lat],
+      zoom:     Math.max(map.getZoom(), 14),
+      duration: 900,
+      essential: true,
+    })
+  }, [selectedEventId, mapReady, mapRef])
 }
