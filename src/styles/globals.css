@@ -2,6 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Aethor design tokens ─────────────────────────────────── */
+:root {
+  /* Bakgrunner */
+  --color-bg:           #0A0A0A;
+  --color-bg-panel:     #0F0F0F;
+  --color-bg-card:      #141414;
+  --color-bg-hover:     #1A1A1A;
+
+  /* Amber — signatur */
+  --color-primary:      #F97316;
+  --color-primary-dim:  #EA580C;
+  --color-primary-glow: rgba(249, 115, 22, 0.15);
+
+  /* Borders */
+  --color-border:       #1F1F1F;
+  --color-border-act:   #F97316;
+
+  /* Tekst */
+  --color-text-prim:    #E5E5E5;
+  --color-text-dim:     #525252;
+  --color-text-mono:    #A3A3A3;
+
+  /* Status */
+  --color-critical:     #EF4444;
+  --color-warning:      #F59E0B;
+  --color-safe:         #22C55E;
+  --color-info:         #6B7280;
+
+  /* Heatmap */
+  --color-heat-low:     #1E3A5F;
+  --color-heat-mid:     #F97316;
+  --color-heat-high:    #EF4444;
+
+  /* Typografi */
+  --font-ui:   'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Transitions */
+  --transition-fast: 100ms ease;
+  --transition-base: 200ms ease;
+}
+
 @layer base {
   *, *::before, *::after {
     box-sizing: border-box;
@@ -39,14 +81,66 @@
   }
 }
 
-@layer utilities {
-  .font-mono {
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
+@layer components {
+  /* Panel-base — alle sidepaneler bruker dette */
+  .aethor-panel {
+    background-color: var(--color-bg-panel);
+    border-right: 1px solid var(--color-border);
+    position: relative;
   }
 
-  /* Amber glow på aktive elementer */
-  .border-active {
-    border-left: 2px solid #F97316;
+  /* Kort-/item-base */
+  .aethor-card {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    transition: border-color var(--transition-fast);
+  }
+  .aethor-card:hover {
+    border-color: var(--color-primary-dim);
+  }
+
+  /* Aktiv venstre-stripe */
+  .aethor-active-stripe {
+    border-left: 2px solid var(--color-primary);
+  }
+
+  /* HUD label — liten uppercase monospace label */
+  .hud-label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+  }
+
+  /* HUD verdi — data-display */
+  .hud-value {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-mono);
+  }
+
+  /* Status-prikk */
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .status-dot.critical { background-color: var(--color-critical); box-shadow: 0 0 6px var(--color-critical); }
+  .status-dot.warning  { background-color: var(--color-warning);  box-shadow: 0 0 6px var(--color-warning); }
+  .status-dot.safe     { background-color: var(--color-safe);     box-shadow: 0 0 6px var(--color-safe); }
+  .status-dot.info     { background-color: var(--color-info); }
+}
+
+@layer utilities {
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  /* Amber text glow */
+  .text-glow {
+    text-shadow: 0 0 12px rgba(249, 115, 22, 0.6);
   }
 
   /* Scan-line overlay */
@@ -68,8 +162,8 @@
     z-index: 1;
   }
 
-  /* Amber text glow */
-  .text-glow {
-    text-shadow: 0 0 12px rgba(249, 115, 22, 0.6);
+  /* Amber box glow — f.eks. aktive ikoner */
+  .box-glow {
+    box-shadow: 0 0 12px var(--color-primary-glow);
   }
 }
