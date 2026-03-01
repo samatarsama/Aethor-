@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BrainCircuit, Camera, Globe } from 'lucide-react'
 import PredictionPanel from '@/components/panels/PredictionPanel'
+import CameraPanel from '@/components/panels/CameraPanel'
 
 const TABS = [
   { id: 'pred',  icon: BrainCircuit, label: 'PREDIKSJON' },
@@ -38,11 +39,7 @@ export default function RightPanel() {
 
         {activeTab === 'pred'  && <PredictionPanel />}
 
-        {activeTab === 'cam' && (
-          <div className="flex flex-col flex-1 items-center justify-center gap-2">
-            <span className="hud-label">KAMERA — STEG 11</span>
-          </div>
-        )}
+        {activeTab === 'cam'   && <CameraPanel />}
 
         {activeTab === 'osint' && (
           <div className="flex flex-col flex-1 items-center justify-center gap-2">

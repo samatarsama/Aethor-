@@ -166,4 +166,32 @@
   .box-glow {
     box-shadow: 0 0 12px var(--color-primary-glow);
   }
+
+  /* Kamera no-signal — statisk støy */
+  .no-signal {
+    background-color: #080808;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.025) 0px,
+        rgba(255,255,255,0.025) 1px,
+        transparent 1px,
+        transparent 3px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(255,255,255,0.015) 0px,
+        rgba(255,255,255,0.015) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+    animation: static-noise 0.08s steps(1) infinite;
+  }
+
+  @keyframes static-noise {
+    0%  { background-position:  0px  0px,   0px  0px; }
+    25% { background-position: -2px  3px,   1px -2px; }
+    50% { background-position:  3px -1px,  -2px  1px; }
+    75% { background-position: -1px  2px,   3px  3px; }
+  }
 }
